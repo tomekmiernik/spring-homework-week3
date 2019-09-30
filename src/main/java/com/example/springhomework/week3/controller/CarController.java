@@ -4,6 +4,7 @@ import com.example.springhomework.week3.model.Car;
 import com.example.springhomework.week3.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,20 +21,26 @@ public class CarController {
         this.carService = carService;
     }
 
-    @GetMapping
+    @GetMapping(produces = {MediaType.APPLICATION_XML_VALUE,
+            MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<List<Car>> getAllCars() {
         List<Car> allCars = carService.getAllCars();
         return new ResponseEntity<>(allCars, HttpStatus.OK);
     }
 
-    @GetMapping("/{carId}")
+
+    @GetMapping(value = "/{carId}",
+            produces = {MediaType.APPLICATION_XML_VALUE,
+                    MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Car> getCarById(@PathVariable("carId") Long carId) {
         Optional<Car> car = carService.getCarById(carId);
         return car.map(c -> new ResponseEntity<>(c, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @GetMapping("/color")
+    @GetMapping(value = "/color",
+            produces = {MediaType.APPLICATION_XML_VALUE,
+                    MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<List<Car>> getCarByColor(@RequestParam String color) {
         List<Car> cars = carService.getCarsByColor(color);
         if (cars.isEmpty()) {
@@ -43,40 +50,45 @@ public class CarController {
         }
     }
 
-    @PostMapping
+    @PostMapping(produces = {MediaType.APPLICATION_XML_VALUE,
+            MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity addNewCar(@RequestBody Car car) {
-        if (carService.addCar(car)){
+        if (carService.addCar(car)) {
             return new ResponseEntity(HttpStatus.CREATED);
-        }else {
+        } else {
             return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @PutMapping
-    public ResponseEntity modifyCar(@RequestBody Car modifyCar){
+    @PutMapping(produces = {MediaType.APPLICATION_XML_VALUE,
+            MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity modifyCar(@RequestBody Car modifyCar) {
         if (carService.getCarAndModifyHim(modifyCar)) {
             return new ResponseEntity(HttpStatus.OK);
-        }else {
+        } else {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
     }
 
-    @PatchMapping("/{carId}")
+    @PatchMapping(value = "/{carId}",
+            produces = {MediaType.APPLICATION_XML_VALUE,
+                    MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity modifyFieldOfCar(@RequestParam("color") String newCarColor,
-                                           @PathVariable("carId") Long carId){
-        if (carService.getCarAndModifyHim(newCarColor,carId)) {
+                                           @PathVariable("carId") Long carId) {
+        if (carService.getCarAndModifyHim(newCarColor, carId)) {
             return new ResponseEntity<>(HttpStatus.OK);
-        }else {
+        } else {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
     }
 
-    @DeleteMapping("/{carId}")
-    public ResponseEntity removeCar(@PathVariable Long carId){
+    @DeleteMapping(value = "/{carId}",
+            produces = {MediaType.APPLICATION_XML_VALUE,
+                    MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity removeCar(@PathVariable Long carId) {
         if (carService.deleteCar(carId)) {
             return new ResponseEntity(HttpStatus.OK);
-        }
-        else {
+        } else {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
     }
