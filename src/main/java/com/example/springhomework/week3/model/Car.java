@@ -1,6 +1,5 @@
 package com.example.springhomework.week3.model;
 
-import org.springframework.stereotype.Component;
 
 public class Car {
 

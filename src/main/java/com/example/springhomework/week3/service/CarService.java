@@ -4,7 +4,6 @@ import com.example.springhomework.week3.model.Car;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -48,38 +47,38 @@ public class CarService {
 
     public boolean getCarAndModifyHim(Car modifyCar) {
         Optional<Car> car = carList.stream()
-                .filter(c-> c.getId().equals(modifyCar.getId()))
+                .filter(c -> c.getId().equals(modifyCar.getId()))
                 .findFirst();
-        if(car.isPresent()){
+        if (car.isPresent()) {
             carList.remove(car.get());
             carList.add(modifyCar);
             return true;
-        }else {
+        } else {
             return false;
         }
     }
 
-    public boolean getCarAndModifyHim(String newCarColor, Long carId) {
+    public boolean getCarAndModifyHisColor(String newCarColor, Long carId) {
         Optional<Car> car = carList.stream()
-                .filter(c-> c.getId().equals(carId))
+                .filter(c -> c.getId().equals(carId))
                 .findFirst();
-        if (car.isPresent()){
+        if (car.isPresent()) {
             car.get().setColor(newCarColor);
-            carList.remove(car.get());
-            carList.add(car.get());
             return true;
-        }else {
+        } else {
             return false;
         }
     }
 
     public boolean deleteCar(Long carId) {
-        Optional<Car> car = carList.stream().filter(c-> c.getId().equals(carId)).findFirst();
-        if(car.isPresent()){
+        Optional<Car> car = carList.stream()
+                .filter(c -> c.getId().equals(carId))
+                .findFirst();
+        if (car.isPresent()) {
             carList.remove(car.get());
             return true;
-        }else {
+        } else {
             return false;
         }
-     }
+    }
 }

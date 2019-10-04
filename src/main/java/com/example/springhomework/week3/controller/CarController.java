@@ -73,9 +73,9 @@ public class CarController {
     @PatchMapping(value = "/{carId}",
             produces = {MediaType.APPLICATION_XML_VALUE,
                     MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity modifyFieldOfCar(@RequestParam("color") String newCarColor,
-                                           @PathVariable("carId") Long carId) {
-        if (carService.getCarAndModifyHim(newCarColor, carId)) {
+    public ResponseEntity modifyColorOfCar(@PathVariable("carId") Long carId,
+                                           @RequestParam("color") String newCarColor) {
+        if (carService.getCarAndModifyHisColor(newCarColor, carId)) {
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
