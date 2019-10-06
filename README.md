@@ -1,6 +1,6 @@
 Week 3: 
 Essential objective:
-Write in REST API for the list of vehicles. The vehicle will have fields: id, mark, model, color.
+1. Write in REST API for the list of vehicles. The vehicle will have fields: id, mark, model, color.
 API which will be supported web methods:
 - for taking all positions,
 - for taking the element after his id,
@@ -8,9 +8,9 @@ API which will be supported web methods:
 - for adding the position,
 - for modifying the position,
 - for modifying one of fields of the position,
-- for removing one of fields,
-At the start 3 positions are supposed to give themselves the application.
-For ambitious:
+- for removing one of fields.
+2. At the start 3 positions are supposed to give themselves the application.
+3. For ambitious:
 - extend applications for the possibility of returning data in the form XML
 - add the Swgger UI personnel
 - implement HATEOAS -> (it didn't add, I must earlier expand my knowledge in this subject)
