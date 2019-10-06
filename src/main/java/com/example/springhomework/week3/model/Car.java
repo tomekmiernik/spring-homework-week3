@@ -3,6 +3,7 @@ package com.example.springhomework.week3.model;
 
 public class Car {
 
+
     private Long id;
 
     private String mark;

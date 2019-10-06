@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<table>
+    <tr>
+        <th>Marka</th>
+        <th>Model</th>
+        <th>Kolor</th>
+    </tr>
+    <tr th:object="${car}">
+        <td th:text="${car.get().getMark()}"></td>
+        <td th:text="${car.get().getModel()}"></td>
+        <td th:text="${car.get().getColor()}"></td>
+        <td>
+            <a th:href="@{'/cars/edit/' + ${car.get().getId()}}">
+                <button style="background-color: #00008B;color: #FFFFFF">Edytuj</button>
+            </a>
+        </td>
+        <td>
+            <a th:href="@{'/cars/color/' + ${car.get().getId()}}">
+                <button style="background-color: #0000FF;color: #FFFFFF">Zmień kolor</button>
+            </a>
+        </td>
+        <td>
+            <a th:href="@{'/cars/delete/'+${car.get().getId()}}" onclick="return confirm('Czy napewno chcesz usunac pojazd?')">
+                <button style="background-color: #FF0000; color: #FFFFFF">Usuń
+                </button>
+            </a>
+        </td>
+        <td>
+            <a th:href="@{/cars}">
+                <button>X</button>
+            </a>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

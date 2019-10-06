@@ -3,15 +3,12 @@ package com.example.springhomework.week3.controller;
 import com.example.springhomework.week3.model.Car;
 import com.example.springhomework.week3.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
-
-@RestController
+@Controller
 @RequestMapping("/cars")
 public class CarController {
     private CarService carService;
@@ -23,73 +20,94 @@ public class CarController {
 
     @GetMapping(produces = {MediaType.APPLICATION_XML_VALUE,
             MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<List<Car>> getAllCars() {
-        List<Car> allCars = carService.getAllCars();
-        return new ResponseEntity<>(allCars, HttpStatus.OK);
+    public String getAllCars(Model model) {
+        model.addAttribute("cars", carService.getAllCars());
+        return "cars";
     }
-
 
     @GetMapping(value = "/{carId}",
             produces = {MediaType.APPLICATION_XML_VALUE,
                     MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<Car> getCarById(@PathVariable("carId") Long carId) {
-        Optional<Car> car = carService.getCarById(carId);
-        return car.map(c -> new ResponseEntity<>(c, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    public String showCarItem(@PathVariable("carId") Long carId, Model model) {
+        model.addAttribute("car", carService.getCarById(carId));
+        return "options";
     }
 
     @GetMapping(value = "/color",
             produces = {MediaType.APPLICATION_XML_VALUE,
                     MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<List<Car>> getCarByColor(@RequestParam String color) {
-        List<Car> cars = carService.getCarsByColor(color);
-        if (cars.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    public String showCarsByColor(@RequestParam("color") String color, Model model) {
+        if (color.isEmpty()) {
+            model.addAttribute("info", "Parametr kolor jest wymagany");
+            return "cars";
         } else {
-            return new ResponseEntity<>(cars, HttpStatus.OK);
+            model.addAttribute("cars", carService.getCarsByColor(color));
+            return "cars";
         }
+    }
+
+
+    @GetMapping("/add")
+    public String getPageForAddNewCar(Model model) {
+        model.addAttribute("car", new Car());
+        model.addAttribute("carId", carService.getNextCarId());
+        return "add";
     }
 
     @PostMapping(produces = {MediaType.APPLICATION_XML_VALUE,
             MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity addNewCar(@RequestBody Car car) {
+    public String addNewCar(@ModelAttribute("car") Car car) {
         if (carService.addCar(car)) {
-            return new ResponseEntity(HttpStatus.CREATED);
+            return "redirect:/cars";
         } else {
-            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+            return "add";
         }
+    }
+
+    @GetMapping(value = "/edit/{carId}", produces = {MediaType.APPLICATION_XML_VALUE,
+            MediaType.APPLICATION_JSON_VALUE})
+    public String getPageForModifyCar(@PathVariable("carId") Long carId, Model model) {
+        model.addAttribute("modifyCar", carService.getCarById(carId));
+        return "edit";
     }
 
     @PutMapping(produces = {MediaType.APPLICATION_XML_VALUE,
             MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity modifyCar(@RequestBody Car modifyCar) {
+    public String modifyCar(@ModelAttribute("modifyCar") Car modifyCar) {
         if (carService.getCarAndModifyHim(modifyCar)) {
-            return new ResponseEntity(HttpStatus.OK);
+            return "redirect:/cars";
         } else {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+            return "cars";
         }
+    }
+
+    @GetMapping(value = "/color/{carId}",
+            produces = {MediaType.APPLICATION_XML_VALUE,
+                    MediaType.APPLICATION_JSON_VALUE})
+    public String getPageForChangeColorOfCar(@PathVariable("carId") Long carId, Model model) {
+        model.addAttribute("modifyCar", carService.getCarById(carId));
+        return "edit-color";
     }
 
     @PatchMapping(value = "/{carId}",
             produces = {MediaType.APPLICATION_XML_VALUE,
                     MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity modifyColorOfCar(@PathVariable("carId") Long carId,
-                                           @RequestParam("color") String newCarColor) {
+    public String modifyColorOfCar(@PathVariable("carId") Long carId, @RequestParam("color") String newCarColor) {
         if (carService.getCarAndModifyHisColor(newCarColor, carId)) {
-            return new ResponseEntity<>(HttpStatus.OK);
+            return "redirect:/cars/" + carId;
         } else {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+            return "cars/color/" + carId;
         }
     }
 
-    @DeleteMapping(value = "/{carId}",
+    @GetMapping(value = "/delete/{carId}",
             produces = {MediaType.APPLICATION_XML_VALUE,
                     MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity removeCar(@PathVariable Long carId) {
+    public String deleteCar(@PathVariable("carId") Long carId) {
         if (carService.deleteCar(carId)) {
-            return new ResponseEntity(HttpStatus.OK);
+            return "redirect:/cars";
         } else {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+            return "cars/" + carId;
         }
     }
 }

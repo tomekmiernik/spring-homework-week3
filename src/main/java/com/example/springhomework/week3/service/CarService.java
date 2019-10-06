@@ -21,9 +21,15 @@ public class CarService {
     }
 
     private void init() {
-        carList.add(new Car(1L, "Opel", "Astra", "czerwony"));
-        carList.add(new Car(2L, "Ford", "Kuga", "niebieski"));
-        carList.add(new Car(3L, "Skoda", "Superb", "zielony"));
+        carList.add(new Car(1L, "Opel", "Astra", "czarny"));
+        carList.add(new Car(2L, "Opel", "Insignia", "niebieski"));
+        carList.add(new Car(3L, "Opel", "Corsa", "zielony"));
+        carList.add(new Car(4L, "Skoda", "Superb", "biały"));
+        carList.add(new Car(5L, "Skoda", "Fabia", "grafitowy"));
+        carList.add(new Car(6L, "Skoda", "Octavia", "czerwony"));
+        carList.add(new Car(7L, "Ford", "Focus", "czarny"));
+        carList.add(new Car(8L, "Ford", "Kuga", "szary"));
+        carList.add(new Car(9L, "Ford", "Mondeo", "zielony"));
     }
 
 
@@ -42,6 +48,7 @@ public class CarService {
     }
 
     public boolean addCar(Car car) {
+        autoIncrementCarId(car);
         return carList.add(car);
     }
 
@@ -50,6 +57,9 @@ public class CarService {
                 .filter(c -> c.getId().equals(modifyCar.getId()))
                 .findFirst();
         if (car.isPresent()) {
+            car.get().setMark(modifyCar.getMark());
+            car.get().setModel(modifyCar.getModel());
+            car.get().setColor(modifyCar.getColor());
             carList.remove(car.get());
             carList.add(modifyCar);
             return true;
@@ -80,5 +90,16 @@ public class CarService {
         } else {
             return false;
         }
+    }
+
+    private void autoIncrementCarId(Car car) {
+        long lastCarId = carList.get(carList.size()-1).getId();
+        if(lastCarId > carList.size()){
+            car.setId(lastCarId + 1);
+        }
+    }
+
+    public long getNextCarId() {
+        return Long.parseLong(String.valueOf(carList.size()+1));
     }
 }

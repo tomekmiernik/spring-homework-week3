@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<a th:href="@{/cars}" style="margin-left: 138px">
+    <button type="button">X</button>
+</a>
+<form th:action="@{'/cars'}" th:method="post" th:object="${car}">
+    <input type="number" name="id" th:value="${carId}" hidden><br>
+    <input type="text" th:field="*{mark}" placeholder="marka"><br>
+    <input type="text" th:field="*{model}" placeholder="model"><br>
+    <input type="text" th:field="*{color}" placeholder="kolor"><br>
+
+    <button type="submit" style="background-color: #008000; color: #FFFFFF" >Zapisz</button>
+</form>
+
+</body>
+</html>
