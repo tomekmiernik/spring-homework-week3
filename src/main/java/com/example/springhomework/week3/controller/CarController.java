@@ -21,6 +21,7 @@ public class CarController {
     @GetMapping(produces = {MediaType.APPLICATION_XML_VALUE,
             MediaType.APPLICATION_JSON_VALUE})
     public String getAllCars(Model model) {
+        model.addAttribute("title", "Car - Rest API");
         model.addAttribute("cars", carService.getAllCars());
         return "cars";
     }
@@ -29,6 +30,7 @@ public class CarController {
             produces = {MediaType.APPLICATION_XML_VALUE,
                     MediaType.APPLICATION_JSON_VALUE})
     public String showCarItem(@PathVariable("carId") Long carId, Model model) {
+        model.addAttribute("title", "Car - Rest API - opcje");
         model.addAttribute("car", carService.getCarById(carId));
         return "options";
     }
@@ -49,6 +51,7 @@ public class CarController {
 
     @GetMapping("/add")
     public String getPageForAddNewCar(Model model) {
+        model.addAttribute("title", "Car - Rest API - dodawanie auta");
         model.addAttribute("car", new Car());
         model.addAttribute("carId", carService.getNextCarId());
         return "add";
@@ -67,6 +70,7 @@ public class CarController {
     @GetMapping(value = "/edit/{carId}", produces = {MediaType.APPLICATION_XML_VALUE,
             MediaType.APPLICATION_JSON_VALUE})
     public String getPageForModifyCar(@PathVariable("carId") Long carId, Model model) {
+        model.addAttribute("title", "Car - Rest API - edycja auta");
         model.addAttribute("modifyCar", carService.getCarById(carId));
         return "edit";
     }
@@ -85,6 +89,7 @@ public class CarController {
             produces = {MediaType.APPLICATION_XML_VALUE,
                     MediaType.APPLICATION_JSON_VALUE})
     public String getPageForChangeColorOfCar(@PathVariable("carId") Long carId, Model model) {
+        model.addAttribute("title", "Car - Rest API - edycja koloru auta");
         model.addAttribute("modifyCar", carService.getCarById(carId));
         return "edit-color";
     }
