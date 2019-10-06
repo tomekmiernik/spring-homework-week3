@@ -11,9 +11,9 @@ API which will be supported web methods:
 - for removing one of fields,
 At the start 3 positions are supposed to give themselves the application.
 For ambitious:
-extend applications for the possibility of returning data in the form XML
-add the Swgger UI personnel
-implement HATEOAS - > (it didn't add, I must earlier expand my knowledge in this subject)
+- extend applications for the possibility of returning data in the form XML
+- add the Swgger UI personnel
+- implement HATEOAS -> (it didn't add, I must earlier expand my knowledge in this subject)
 ____________________________________________________________________________________________
 
 Week 4: 
