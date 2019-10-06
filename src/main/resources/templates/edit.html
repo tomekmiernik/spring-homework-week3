@@ -2,16 +2,16 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/header :: header"></head>
 <body>
-<a th:href="@{'/cars/'+${modifyCar.get().getId()}}" style="margin-left: 138px">
-    <button type="button">X</button>
+<a th:href="@{'/cars/'+${modifyCar.get().getId()}}">
+    <button class="returnButton">X</button>
 </a>
 <form th:action="@{'/cars'}" th:method="put" th:object="${modifyCar}">
-    <input type="number" name="id" th:value="${modifyCar.get().getId()}" readonly style="background-color: #aaaaaa"><br>
+    <input class="readOnlyField" type="number"  name="id" th:value="${modifyCar.get().getId()}" readonly><br>
     <input type="text" th:field="*{mark}" placeholder="marka"><br>
     <input type="text" th:field="*{model}" placeholder="model"><br>
     <input type="text" th:field="*{color}" placeholder="kolor"><br>
 
-    <button type="submit" style="background-color: #00008B; color: #FFFFFF">Edytuj</button>
+    <button class="editCar" type="submit">Edytuj</button>
 </form>
 </body>
 </html>

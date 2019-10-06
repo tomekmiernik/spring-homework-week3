@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/cars")
 public class CarController {
@@ -41,10 +43,17 @@ public class CarController {
     public String showCarsByColor(@RequestParam("color") String color, Model model) {
         if (color.isEmpty()) {
             model.addAttribute("info", "Parametr kolor jest wymagany");
+            model.addAttribute("cars", carService.getAllCars());
             return "cars";
         } else {
-            model.addAttribute("cars", carService.getCarsByColor(color));
-            return "cars";
+            List<Car> carsByColor = carService.getCarsByColor(color);
+            if(carsByColor.isEmpty()){
+                model.addAttribute("info", "Nie ma pojazdów o podanym kolorze");
+                return "result";
+            }else{
+                model.addAttribute("cars", carService.getCarsByColor(color));
+                return "result";
+            }
         }
     }
 

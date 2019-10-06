@@ -15,23 +15,23 @@
         <td th:text="${car.get().getColor()}"></td>
         <td>
             <a th:href="@{'/cars/edit/' + ${car.get().getId()}}">
-                <button style="background-color: #00008B;color: #FFFFFF">Edytuj</button>
+                <button class="editCar">Edytuj</button>
             </a>
         </td>
         <td>
             <a th:href="@{'/cars/color/' + ${car.get().getId()}}">
-                <button style="background-color: #0000FF;color: #FFFFFF">Zmień kolor</button>
+                <button class="editColor">Zmień kolor</button>
             </a>
         </td>
         <td>
             <a th:href="@{'/cars/delete/'+${car.get().getId()}}" onclick="return confirm('Czy napewno chcesz usunac pojazd?')">
-                <button style="background-color: #FF0000; color: #FFFFFF">Usuń
+                <button class="deleteCar">Usuń
                 </button>
             </a>
         </td>
         <td>
             <a th:href="@{/cars}">
-                <button>X</button>
+                <button class="returnButton">X</button>
             </a>
         </td>
     </tr>

@@ -1,0 +1,43 @@
+a{
+    text-decoration: none;
+}
+button{
+    color: #FFFFFF;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover{
+    opacity: .8;
+    box-shadow: #000000 2px 2px 12px;
+}
+
+.optionButton{
+    background-color: #FF4500;
+}
+
+.addButton{
+    background-color: #008000;
+}
+
+.editCar{
+    background-color: #00008B;
+}
+
+.editColor{
+    background-color: #0000FF;
+}
+
+.deleteCar{
+    background-color: #FF0000;
+}
+
+.readOnlyField{
+    background-color: #aaaaaa;
+}
+
+.returnButton{
+    background-color: #999999;
+    font-weight: bold;
+    color: #000000;
+}
